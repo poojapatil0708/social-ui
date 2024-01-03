@@ -1,7 +1,8 @@
-const Input = ({ onChange, ...props }) => {
+const Input = ({ type, error, value, onChange, ...props }) => {
     return (
         <div>
-            <input type="text" className="input" onChange={onChange} {...props} />
+            <input type={type} className="input" onChange={onChange} {...props} />
+            {error ? <div className="input-error">{error}</div> : null}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SignUp from "../screens/signup";
 import { routes } from "../constants/routes";
 import LogIn from "../screens/login";
@@ -8,8 +8,9 @@ const IndexRouter = () => {
     return(
         <BrowserRouter>
             <Routes>
-                <Route path={routes.signup} element={<SignUp/>} />
+                <Route path="*" element={<Navigate to={routes.login}/>}/>
                 <Route path={routes.login} element={<LogIn/>} />
+                <Route path={routes.signup} element={<SignUp/>} />
             </Routes>
             <ToastContainer/>
         </BrowserRouter>

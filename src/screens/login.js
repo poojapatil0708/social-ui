@@ -3,10 +3,16 @@ import * as Yup from "yup";
 import Input from "../componants/input";
 import Button from "../componants/butten";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logIn } from "../api/user";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/user-reducer";
 
 const LogIn = () => {
+
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const initialValues = {
         email: '',
@@ -20,7 +26,11 @@ const LogIn = () => {
 
     const onSubmit = (values) => {
         logIn(values)
-            .then(res => toast.success('Login successfuly', res))
+            .then(res => {
+                dispatch(setUser(res.user));
+                toast.success('Login successfuly');
+                navigate('/feed')
+            })
             .catch(err => toast.error(err.response?.data?.message || 'Something went wrong'))
     }
 

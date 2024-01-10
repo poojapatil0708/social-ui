@@ -17,6 +17,7 @@
     display: block;
     margin: auto;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fafafa;
 }
 
 .post-container {
@@ -26,7 +27,7 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px;
-    
+
 }
 
 .body {
@@ -36,7 +37,7 @@
 }
 
 .text {
-    color: #24a0ed;
+    color: #007bff;
     display: flex;
     justify-content: center;
 }
@@ -61,7 +62,7 @@
 
 .button {
     width: 95%;
-    background-color: #24a0ed;
+    background-color: #007bff;
     color: black;
     border-radius: 10px;
     border-style: none;
@@ -75,9 +76,42 @@
     color: white;
 }
 
+.create-post-button {
+    width: 20%;
+    border-style: none;
+    background-color: #007bff;
+    border-radius: 15px;
+    padding: 15px;
+    margin: auto;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+    box-sizing: border-box;
+    color: white;
+}
+
 .feed-input {
     width: 100%;
     height: 50%;
     border: 1px solid lightgray;
     border-radius: 10px;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    outline: none;
+}
+
+.div-container {
+    display: flex;
+    justify-content: space-between;
 }

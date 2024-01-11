@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, onClear }) => {
   const [query, setQuery] = useState('');
 
   // Debounce function
@@ -17,14 +17,17 @@ const SearchBar = ({ onSearch }) => {
     debounce((value) => {
       onSearch(value);
     }, 300),
-    [onSearch]
+    []
 );
 
   // Effect to trigger the debounced search when the query changes
   useEffect(() => {
     if(query) {
       debouncedSearch(query);
+    } else{
+      onClear()
     }
+  // eslint-disable-next-line 
   }, [query, debouncedSearch]);
 
   const handleInputChange = (e) => {

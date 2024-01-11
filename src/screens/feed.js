@@ -7,6 +7,10 @@ import { removeUser } from "../redux/user-reducer";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../componants/search";
 import { searchUser } from "../api/user";
+import Button from "../componants/butten";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaPowerOff } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 
 const Post = ({ item, onDelete }) => {
     return (
@@ -14,8 +18,18 @@ const Post = ({ item, onDelete }) => {
             <div className="container" style={{ marginBottom: '5px' }}>
                 <div>User</div>
                 <div>{item.text}</div>
-                <button onClick={() => onDelete(item)} >Delete</button>
+                <div className="delete">
+                    <FaTrashAlt onClick={() => onDelete(item)} />
+                </div>
             </div>
+        </div>
+    );
+}
+
+const SearchResult = ({ item }) => {
+    return (
+        <div className="search-result">
+            <div>{item.full_name}</div>
         </div>
     );
 }
@@ -28,7 +42,7 @@ const Feed = () => {
     const [feed, setFeed] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -40,7 +54,11 @@ const Feed = () => {
 
     const onSubmit = () => {
         createPost({ text, user: user._id })
-            .then(() => toast.success('Post created successfuly'))
+            .then(res => {
+                setFeed([...feed, res]);
+                setModalOpen(false)
+                toast.success('Post created successfuly')
+            })
             .catch(err => toast.error(err.response?.data?.message || 'Error creating post'))
     }
 
@@ -69,6 +87,7 @@ const Feed = () => {
     const handleSearch = (fullName) => {
         searchUser(fullName)
             .then(res => {
+                setSearchResults(res)
                 toast.success(res.message);
             })
             .catch(err => {
@@ -78,31 +97,38 @@ const Feed = () => {
 
     return (
         <div>
-            <div className="div-container">
-                <SearchBar onSearch={handleSearch} />
-                <button onClick={() => {
-                    dispatch(removeUser())
-                    navigate('/login')
-                }}>LogOut</button>
-            </div>
-            <button className="create-post-button" placeholder="Create Post" onClick={handleOpenModal}>Create Post</button>
-            <Modal className="modal-container"
-                isOpen={isModalOpen}
-                onRequestClose={handleCloseModal}
-                contentLabel="Example Modal">
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <h2>Create Post</h2>
-                    <button onClick={handleCloseModal}>Close Modal</button>
+            <div className="feed-container">
+                <div>
+                    <Button placeholder="Create Post" small onClick={handleOpenModal} label={'Create Post'} />
+                    <Modal className="modal-container" isOpen={isModalOpen} onRequestClose={handleCloseModal} contentLabel="Example Modal">
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
+                            <h2>Create Post</h2>
+                            <IoClose size={'30px'} onClick={handleCloseModal}/>
+                        </div>
+                        <textarea className="feed-input" onChange={(e) => setText(e.target.value)} value={text} />
+                        <Button small onClick={onSubmit} label={'Post'}/>
+                    </Modal>
                 </div>
-                <textarea className="feed-input" onChange={(e) => setText(e.target.value)} value={text} />
-                <button onClick={onSubmit}>Post</button>
-            </Modal>
+                <div>
+                    <SearchBar onSearch={handleSearch} onClear={()=>setSearchResults([])} />
+                    <div>
+                        {
+                            searchResults.map((item) => <SearchResult item={item} key={item._id} />)
+                        }
+                    </div>
+                </div>
+                <div>
+                    <FaPowerOff size={'20px'} onClick={() => {
+                        dispatch(removeUser())
+                        navigate('/login')
+                    }} />
+                </div>
+            </div>
             <div className="post-container">
                 {
                     feed.map((item) => <Post item={item} key={item._id} onDelete={() => onDeletePost(item)} />)
                 }
             </div>
-
         </div>
     );
 }

@@ -1,7 +1,7 @@
 const Button = ({label,...props}) => {
     return(
         <div>
-            <button className="button" type="submit" {...props}>{label}</button>
+            <button className={props.small ? 'button-sm': 'button'} type="submit" {...props}>{label}</button>
         </div>
     );
 }

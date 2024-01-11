@@ -16,8 +16,8 @@ const IndexRouter = () => {
                 user
                     ?
                     <Routes>
-                        <Route path="*" element={<Navigate to={routes.feed} />} />
-                        <Route path={routes.feed} element={<Feed />} />
+                            <Route path="*" element={<Navigate to={routes.feed} />} />
+                            <Route path={routes.feed} element={<Feed />} />
                     </Routes>
                     :
                     <Routes>
